@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 - 2026-06-01
+
+- Add automatic production build for minified CSS and JavaScript assets.
+- Add lightweight page scanner via `KoenigConsent.scanPage()`.
+- Add optional `scanOnInit` development flag.
+- Update GitHub Actions release workflow to upload and purge minified files.
+- Expand usage documentation for production setup and scanner workflow.
+
 ## 1.0.1 - 2026-06-01
 
 - Add GitHub Actions CI workflow.

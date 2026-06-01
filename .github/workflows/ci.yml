@@ -22,3 +22,6 @@ jobs:
 
       - name: Syntax check
         run: npm run check
+
+      - name: Build minified assets
+        run: npm run build

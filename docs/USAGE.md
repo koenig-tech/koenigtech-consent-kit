@@ -3,9 +3,9 @@
 ## Standard Integration
 
 ```html
-<link rel="stylesheet" href="/assets/vendor/koenig-consent/koenig-consent.css">
+<link rel="stylesheet" href="/assets/vendor/koenig-consent/koenig-consent.min.css">
 
-<script src="/assets/vendor/koenig-consent/koenig-consent.js"></script>
+<script src="/assets/vendor/koenig-consent/koenig-consent.min.js"></script>
 <script>
   KoenigConsent.init({
     projectId: "client-name",
@@ -29,7 +29,7 @@
 Each website can set its own brand color:
 
 ```html
-<link rel="stylesheet" href="/assets/vendor/koenig-consent/koenig-consent.css">
+<link rel="stylesheet" href="/assets/vendor/koenig-consent/koenig-consent.min.css">
 <style>
   :root {
     --kt-consent-accent: #0f6bff;
@@ -85,6 +85,7 @@ KoenigConsent.rejectAll()
 KoenigConsent.updateConsent({ analytics: true, marketing: false })
 KoenigConsent.hasConsent("marketing")
 KoenigConsent.getConsent()
+KoenigConsent.scanPage()
 KoenigConsent.reset()
 ```
 
@@ -95,6 +96,27 @@ document.addEventListener("koenigtech:consent", function (event) {
   console.log(event.detail);
 });
 ```
+
+## Scanner
+
+Run this before launch in a fresh/private browser session:
+
+```js
+KoenigConsent.scanPage()
+```
+
+The scanner reports common vendors, the likely consent category, and whether a detected embed is controlled by `data-kt-consent-src`.
+
+You can also log a scan automatically while developing:
+
+```js
+KoenigConsent.init({
+  projectId: "client-name",
+  scanOnInit: true
+});
+```
+
+Limit: this is a lightweight DOM scanner, not a legal-grade crawler. It cannot detect scripts injected after user actions unless you run it again after that action.
 
 ## Pre-launch Checklist
 
@@ -107,3 +129,4 @@ document.addEventListener("koenigtech:consent", function (event) {
 - Privacy/cookie policy lists every active vendor.
 - Consent version is set per project.
 - Re-test after adding any new third-party script.
+- Run `KoenigConsent.scanPage()` before launch and review every finding.

@@ -1,6 +1,6 @@
 {
   "name": "koenigtech-consent-kit",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Reusable cookie and tracking consent kit for KoenigTech client websites.",
   "private": true,
   "files": [
@@ -11,7 +11,9 @@
     "CHANGELOG.md"
   ],
   "scripts": {
+    "build": "node scripts/build.mjs",
     "check": "node --check dist/koenig-consent.js",
+    "check:build": "npm run build && git diff --exit-code -- dist/koenig-consent.min.css dist/koenig-consent.min.js",
     "check:release": "node scripts/check-release-version.mjs",
     "dev": "python3 -m http.server 8030"
   }

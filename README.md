@@ -35,6 +35,8 @@ koenigtech-consent-kit/
   dist/
     koenig-consent.css
     koenig-consent.js
+    koenig-consent.min.css
+    koenig-consent.min.js
   docs/
     PRIVACY-POLICY-TEMPLATE.md
     RELEASES.md
@@ -53,16 +55,16 @@ Copy the `dist/` files into the client website:
 
 ```txt
 assets/vendor/koenig-consent/
-  koenig-consent.css
-  koenig-consent.js
+  koenig-consent.min.css
+  koenig-consent.min.js
 ```
 
 Add this before optional tracking scripts:
 
 ```html
-<link rel="stylesheet" href="/assets/vendor/koenig-consent/koenig-consent.css">
+<link rel="stylesheet" href="/assets/vendor/koenig-consent/koenig-consent.min.css">
 
-<script src="/assets/vendor/koenig-consent/koenig-consent.js"></script>
+<script src="/assets/vendor/koenig-consent/koenig-consent.min.js"></script>
 <script>
   KoenigConsent.init({
     projectId: "client-name",
@@ -126,6 +128,27 @@ Do not put the real provider URL in `src`. Use `data-kt-consent-src`:
 </iframe>
 ```
 
+## Scanner
+
+The kit includes a lightweight scanner for KoenigTech pre-launch checks. It detects common vendors such as GA4, Google Ads, GTM, Meta Pixel, TikTok, LinkedIn, Hotjar, HubSpot, Google Maps, YouTube, Vimeo, Google Fonts, Calendly, and Setmore.
+
+Run it in the browser console:
+
+```js
+KoenigConsent.scanPage()
+```
+
+Or enable it during development:
+
+```js
+KoenigConsent.init({
+  projectId: "client-name",
+  scanOnInit: true
+});
+```
+
+The scanner is not a full legal CMP crawler. It helps find obvious scripts, links, iframes, and embeds that should be reviewed before launch.
+
 ## Update Strategy
 
 Use GitHub as the source of truth, but do not load from `main` in production.
@@ -139,8 +162,8 @@ Best default:
 For CDN use, only use pinned versions:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@v1.0.0/dist/koenig-consent.css">
-<script src="https://cdn.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@v1.0.0/dist/koenig-consent.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@v1.1.0/dist/koenig-consent.min.css">
+<script src="https://cdn.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@v1.1.0/dist/koenig-consent.min.js"></script>
 ```
 
 Never use `@main` on client websites.
@@ -151,6 +174,12 @@ Check JavaScript syntax:
 
 ```bash
 npm run check
+```
+
+Build minified production files:
+
+```bash
+npm run build
 ```
 
 Run demo locally from the repo root:

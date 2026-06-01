@@ -25,6 +25,9 @@ jobs:
       - name: Check syntax
         run: npm run check
 
+      - name: Build minified assets
+        run: npm run build
+
       - name: Check release version
         run: npm run check:release
 
@@ -33,6 +36,8 @@ jobs:
           mkdir -p release
           cp dist/koenig-consent.css release/
           cp dist/koenig-consent.js release/
+          cp dist/koenig-consent.min.css release/
+          cp dist/koenig-consent.min.js release/
           tar -czf "release/koenigtech-consent-kit-${GITHUB_REF_NAME}.tar.gz" dist docs examples README.md CHANGELOG.md LICENSE package.json
 
       - name: Create GitHub release
@@ -42,6 +47,8 @@ jobs:
           gh release create "$GITHUB_REF_NAME" \
             release/koenig-consent.css \
             release/koenig-consent.js \
+            release/koenig-consent.min.css \
+            release/koenig-consent.min.js \
             "release/koenigtech-consent-kit-${GITHUB_REF_NAME}.tar.gz" \
             --title "KoenigTech Consent Kit ${GITHUB_REF_NAME}" \
             --generate-notes
@@ -50,3 +57,5 @@ jobs:
         run: |
           curl -fsS "https://purge.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@${GITHUB_REF_NAME}/dist/koenig-consent.css"
           curl -fsS "https://purge.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@${GITHUB_REF_NAME}/dist/koenig-consent.js"
+          curl -fsS "https://purge.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@${GITHUB_REF_NAME}/dist/koenig-consent.min.css"
+          curl -fsS "https://purge.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@${GITHUB_REF_NAME}/dist/koenig-consent.min.js"

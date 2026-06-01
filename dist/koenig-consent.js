@@ -145,6 +145,10 @@
     applyConsent();
     setupPlaceholders();
 
+    if (state.config.scanOnInit) {
+      scanPage();
+    }
+
     if (!isValidConsent(state.consent)) {
       showBanner();
     }
@@ -794,6 +798,80 @@
     return escapeHtml(value).replace(/`/g, "&#096;");
   }
 
+  var SCAN_PATTERNS = [
+    { vendor: "Google Analytics", category: "analytics", pattern: /googletagmanager\.com\/gtag\/js|google-analytics\.com|analytics\.google\.com/i },
+    { vendor: "Google Tag Manager", category: "analytics/marketing", pattern: /googletagmanager\.com\/gtm\.js|GTM-/i },
+    { vendor: "Google Ads", category: "marketing", pattern: /googleadservices\.com|doubleclick\.net|googletagmanager\.com\/gtag\/js\?id=AW-/i },
+    { vendor: "Meta Pixel", category: "marketing", pattern: /connect\.facebook\.net|facebook\.com\/tr|fbq/i },
+    { vendor: "TikTok Pixel", category: "marketing", pattern: /analytics\.tiktok\.com|tiktok\.com\/i18n\/pixel/i },
+    { vendor: "LinkedIn Insight", category: "marketing", pattern: /snap\.licdn\.com|linkedin\.com\/px/i },
+    { vendor: "Hotjar", category: "analytics", pattern: /hotjar\.com|static\.hotjar\.com/i },
+    { vendor: "HubSpot", category: "analytics/marketing", pattern: /hubspot\.com|hs-scripts\.com|js\.hsforms\.net/i },
+    { vendor: "Google Maps", category: "external_media", pattern: /google\.com\/maps|googleapis\.com\/maps|maps\.google/i },
+    { vendor: "YouTube", category: "external_media", pattern: /youtube\.com\/embed|youtube-nocookie\.com/i },
+    { vendor: "Vimeo", category: "external_media", pattern: /player\.vimeo\.com/i },
+    { vendor: "Google Fonts", category: "preferences/external_request", pattern: /fonts\.googleapis\.com|fonts\.gstatic\.com/i },
+    { vendor: "Calendly", category: "external_media", pattern: /calendly\.com|assets\.calendly\.com/i },
+    { vendor: "Setmore", category: "external_link_or_media", pattern: /setmore\.com/i }
+  ];
+
+  function scanPage(options) {
+    var opts = options || {};
+    var nodes = Array.prototype.slice.call(
+      document.querySelectorAll("script[src], iframe[src], iframe[data-kt-consent-src], link[href], img[src], source[src]")
+    );
+    var findings = [];
+
+    nodes.forEach(function (node) {
+      var url =
+        node.getAttribute("src") ||
+        node.getAttribute("href") ||
+        node.getAttribute("data-kt-consent-src") ||
+        "";
+      if (!url) return;
+
+      SCAN_PATTERNS.forEach(function (item) {
+        if (!item.pattern.test(url)) return;
+
+        var blockedByConsent = !!node.getAttribute("data-kt-consent-src");
+        var activeUrl = !!node.getAttribute("src") || !!node.getAttribute("href");
+        var needsConsent =
+          /analytics|marketing|external_media|external_request/.test(item.category) &&
+          !blockedByConsent;
+
+        findings.push({
+          vendor: item.vendor,
+          category: item.category,
+          tag: node.tagName.toLowerCase(),
+          url: url,
+          blockedByConsent: blockedByConsent,
+          activeBeforeConsentRisk: activeUrl && needsConsent,
+          recommendation: blockedByConsent
+            ? "Controlled by KoenigConsent."
+            : "Review this service and block it behind the matching consent category if it is not strictly necessary."
+        });
+      });
+    });
+
+    var unique = [];
+    var seen = {};
+    findings.forEach(function (finding) {
+      var key = finding.vendor + "|" + finding.tag + "|" + finding.url;
+      if (seen[key]) return;
+      seen[key] = true;
+      unique.push(finding);
+    });
+
+    if (opts.log !== false && window.console) {
+      console.group("KoenigConsent scan");
+      if (console.table) console.table(unique);
+      else console.log(unique);
+      console.groupEnd();
+    }
+
+    return unique;
+  }
+
   window.KoenigConsent = {
     init: init,
     acceptAll: acceptAll,
@@ -803,6 +881,7 @@
     reset: resetConsent,
     getConsent: getConsent,
     hasConsent: hasConsent,
-    applyConsent: applyConsent
+    applyConsent: applyConsent,
+    scanPage: scanPage
   };
 })();

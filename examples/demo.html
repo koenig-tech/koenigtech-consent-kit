@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KoenigTech Consent Kit Demo</title>
+    <link rel="stylesheet" href="../dist/koenig-consent.css">
+    <style>
+      body {
+        margin: 0;
+        color: #17191d;
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.5;
+      }
+
+      main,
+      footer {
+        width: min(980px, calc(100vw - 32px));
+        margin: 0 auto;
+      }
+
+      main {
+        display: grid;
+        gap: 28px;
+        padding: 48px 0;
+      }
+
+      h1,
+      h2,
+      p {
+        margin-top: 0;
+      }
+
+      .demo-panel {
+        border: 1px solid #d8dce2;
+        border-radius: 8px;
+        padding: 18px;
+      }
+
+      iframe {
+        width: 100%;
+        height: 340px;
+        border: 0;
+        border-radius: 8px;
+      }
+
+      footer {
+        border-top: 1px solid #d8dce2;
+        padding: 24px 0 48px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h1>KoenigTech Consent Kit Demo</h1>
+        <p>
+          This page demonstrates analytics, marketing, and external-media consent.
+          Replace the placeholder IDs before using it in production.
+        </p>
+      </section>
+
+      <section class="demo-panel">
+        <h2>Google Maps placeholder</h2>
+        <iframe
+          title="Google Maps"
+          loading="lazy"
+          data-kt-consent-category="external_media"
+          data-kt-consent-src="https://www.google.com/maps?q=D%C3%BCsseldorf&output=embed">
+        </iframe>
+      </section>
+    </main>
+
+    <footer>
+      <nav aria-label="Footer">
+        <a href="/datenschutz.html">Datenschutz</a>
+        <span aria-hidden="true"> | </span>
+        <a href="/impressum.html">Impressum</a>
+        <span aria-hidden="true"> | </span>
+        <span data-kt-consent-settings-link></span>
+      </nav>
+    </footer>
+
+    <script src="../dist/koenig-consent.js"></script>
+    <script>
+      KoenigConsent.init({
+        projectId: "demo",
+        version: "2026-06-01-compact-ui",
+        privacyUrl: "/datenschutz.html",
+        imprintUrl: "/impressum.html",
+        services: {
+          googleConsentMode: true,
+          ga4Id: "G-XXXXXXXXXX",
+          googleAdsId: "AW-XXXXXXXXXX",
+          metaPixelId: "000000000000000",
+          tikTokPixelId: "",
+          linkedInPartnerId: ""
+        }
+      });
+    </script>
+  </body>
+</html>

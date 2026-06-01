@@ -1,0 +1,17 @@
+{
+  "name": "koenigtech-consent-kit",
+  "version": "1.0.0",
+  "description": "Reusable cookie and tracking consent kit for KoenigTech client websites.",
+  "private": true,
+  "files": [
+    "dist",
+    "docs",
+    "examples",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "check": "node --check dist/koenig-consent.js",
+    "dev": "python3 -m http.server 8030"
+  }
+}

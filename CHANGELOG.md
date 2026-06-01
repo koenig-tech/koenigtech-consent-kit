@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 - 2026-06-01
+
+- Add GitHub Actions CI workflow.
+- Add automatic GitHub Release workflow for version tags.
+- Add release version check to prevent tag/package mismatch.
+
 ## 1.0.0 - 2026-06-01
 
 - Initial KoenigTech consent kit.

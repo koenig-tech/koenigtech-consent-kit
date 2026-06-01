@@ -45,8 +45,12 @@ Run:
 
 ```bash
 npm run check
+RELEASE_TAG=v1.0.1 npm run check:release
 npm run dev
 ```
+
+Replace `v1.0.1` with the version being released. The GitHub Actions release workflow receives this value automatically from the pushed tag.
+
 
 Then test:
 
@@ -61,10 +65,19 @@ Then test:
 
 ```bash
 git add .
-git commit -m "chore: release v1.0.0"
-git tag v1.0.0
-git push origin main --tags
+git commit -m "chore: release v1.0.1"
+git push origin main
+git tag v1.0.1
+git push origin v1.0.1
 ```
+
+Pushing the tag starts the GitHub Actions release workflow. The workflow:
+
+- checks JavaScript syntax
+- checks that `package.json` version matches the tag
+- creates a GitHub Release
+- attaches `koenig-consent.css`, `koenig-consent.js`, and a source archive
+- purges jsDelivr cache for the tagged CDN files
 
 ## Updating Client Websites
 

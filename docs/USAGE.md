@@ -28,12 +28,15 @@
 
 Each website can set its own brand color:
 
-```css
-:root {
-  --kt-consent-accent: #0f6bff;
-  --kt-consent-accent-text: #ffffff;
-  --kt-consent-radius: 8px;
-}
+```html
+<link rel="stylesheet" href="/assets/vendor/koenig-consent/koenig-consent.css">
+<style>
+  :root {
+    --kt-consent-accent: #0f6bff;
+    --kt-consent-accent-text: #ffffff;
+    --kt-consent-radius: 8px;
+  }
+</style>
 ```
 
 Use the client brand primary color for `--kt-consent-accent`. Keep `--kt-consent-accent-text` white unless contrast is poor.

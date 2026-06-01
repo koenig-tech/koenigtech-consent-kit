@@ -87,7 +87,7 @@ Add a footer settings link:
 
 ## Brand Color Per Website
 
-Set CSS variables before or after the consent CSS:
+Set CSS variables after the consent CSS so the website brand color overrides the kit defaults:
 
 ```html
 <style>

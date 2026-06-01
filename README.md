@@ -12,6 +12,12 @@ Use:
 koenigtech-consent-kit
 ```
 
+Repository:
+
+```txt
+https://github.com/koenig-tech/koenigtech-consent-kit
+```
+
 Good alternatives:
 
 ```txt
@@ -133,8 +139,8 @@ Best default:
 For CDN use, only use pinned versions:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/koenigtech/koenigtech-consent-kit@v1.0.0/dist/koenig-consent.css">
-<script src="https://cdn.jsdelivr.net/gh/koenigtech/koenigtech-consent-kit@v1.0.0/dist/koenig-consent.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@v1.0.0/dist/koenig-consent.css">
+<script src="https://cdn.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@v1.0.0/dist/koenig-consent.js"></script>
 ```
 
 Never use `@main` on client websites.

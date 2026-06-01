@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1 - 2026-06-01
+
+- Persist optional-category revocations when a user switches a saved consent category off and closes the settings modal.
+- Keep new optional consent gated behind explicit save, accept-all, or placeholder load actions.
+
 ## 1.1.0 - 2026-06-01
 
 - Add automatic production build for minified CSS and JavaScript assets.

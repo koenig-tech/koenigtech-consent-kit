@@ -699,19 +699,17 @@
     modal.querySelector('[data-kt-action="reject"]').addEventListener("click", function () {
       rejectAll("settings_reject_all");
     });
-    modal.querySelector('[data-kt-action="close"]').addEventListener("click", hideModal);
+    modal.querySelector('[data-kt-action="close"]').addEventListener("click", function () {
+      saveRevocationsBeforeClose(modal);
+    });
     modal.querySelector('[data-kt-action="accept"]').addEventListener("click", function () {
       acceptAll("settings_accept_all");
     });
     modal.querySelector('[data-kt-action="save"]').addEventListener("click", function () {
-      var values = {};
-      modal.querySelectorAll("[data-kt-category-input]").forEach(function (input) {
-        values[input.value] = input.checked;
-      });
-      updateConsent(values, "settings_save");
+      updateConsent(collectModalValues(modal), "settings_save");
     });
     modal.addEventListener("click", function (event) {
-      if (event.target === modal) hideModal();
+      if (event.target === modal) saveRevocationsBeforeClose(modal);
     });
 
     state.modal = modal;
@@ -719,6 +717,37 @@
 
     var dialog = modal.querySelector(".kt-consent-dialog");
     if (dialog) dialog.focus();
+  }
+
+  function collectModalValues(modal) {
+    var values = {};
+    modal.querySelectorAll("[data-kt-category-input]").forEach(function (input) {
+      values[input.value] = input.checked;
+    });
+    return values;
+  }
+
+  function saveRevocationsBeforeClose(modal) {
+    var values = {};
+    var hasRevocation = false;
+
+    modal.querySelectorAll("[data-kt-category-input]").forEach(function (input) {
+      var categoryId = input.value;
+      var current = hasConsent(categoryId);
+
+      values[categoryId] = current;
+      if (current && !input.checked && !isRequiredCategory(categoryId)) {
+        values[categoryId] = false;
+        hasRevocation = true;
+      }
+    });
+
+    if (hasRevocation) {
+      updateConsent(values, "settings_close_revocation");
+      return;
+    }
+
+    hideModal();
   }
 
   function hideModal() {

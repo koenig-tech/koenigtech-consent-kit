@@ -607,7 +607,7 @@
       return;
     }
 
-    var banner = document.createElement("section");
+    var banner = document.createElement("div");
     banner.className = "kt-consent-banner";
     banner.setAttribute("aria-label", state.config.text.bannerTitle);
     banner.innerHTML =

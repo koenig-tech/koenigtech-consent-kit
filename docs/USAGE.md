@@ -9,7 +9,9 @@
 <script>
   KoenigConsent.init({
     projectId: "client-name",
-    version: "2026-06-01",
+    version: "2026-06-09",
+    lang: "de",
+    fallbackLang: "en",
     privacyUrl: "/datenschutz.html",
     imprintUrl: "/impressum.html",
     services: {
@@ -20,8 +22,45 @@
       tikTokPixelId: "",
       linkedInPartnerId: ""
     }
-  });
+});
 </script>
+```
+
+## Language
+
+Built-in languages:
+
+```txt
+de
+en
+```
+
+Set the language explicitly for production sites:
+
+```js
+KoenigConsent.init({
+  projectId: "client-name",
+  lang: "de",
+  fallbackLang: "en"
+});
+```
+
+The kit also understands common aliases such as `de-DE`, `deutsch`, `german`, `en-US`, and `en-GB`.
+
+Override copy per project with `translations`:
+
+```js
+KoenigConsent.init({
+  projectId: "client-name",
+  lang: "de",
+  fallbackLang: "en",
+  translations: {
+    de: {
+      bannerTitle: "Datenschutz-Einstellungen",
+      rejectAll: "Nur notwendige"
+    }
+  }
+});
 ```
 
 ## Branding

@@ -5,9 +5,10 @@
 (function () {
   "use strict";
 
-  var DEFAULT_VERSION = "2026-06-01";
+  var DEFAULT_VERSION = "2026-06-09";
   var CONSENT_EVENT = "koenigtech:consent";
   var STORAGE_PREFIX = "koenigtech_consent_";
+  var FALLBACK_LANG = "en";
   var loadedScripts = {};
 
   var TEXT = {
@@ -119,6 +120,19 @@
     }
   };
 
+  var LANGUAGE_ALIASES = {
+    de: "de",
+    "de-de": "de",
+    "de-at": "de",
+    "de-ch": "de",
+    deutsch: "de",
+    german: "de",
+    en: "en",
+    "en-us": "en",
+    "en-gb": "en",
+    english: "en"
+  };
+
   var DEFAULT_CATEGORIES = [
     { id: "necessary", required: true },
     { id: "security", required: true },
@@ -161,14 +175,16 @@
   }
 
   function mergeConfig(userConfig) {
-    var lang = userConfig.lang || document.documentElement.lang || "en";
-    lang = String(lang).toLowerCase().indexOf("de") === 0 ? "de" : "en";
+    var translations = userConfig.translations || {};
+    var fallbackLang = normalizeLanguage(userConfig.fallbackLang || FALLBACK_LANG, translations, FALLBACK_LANG);
+    var lang = normalizeLanguage(userConfig.lang || document.documentElement.lang || fallbackLang, translations, fallbackLang);
 
     var config = {
       version: userConfig.version || DEFAULT_VERSION,
       storageKey: userConfig.storageKey || STORAGE_PREFIX + (userConfig.projectId || "default"),
       consentMaxAgeDays: userConfig.consentMaxAgeDays || 180,
       lang: lang,
+      fallbackLang: fallbackLang,
       privacyUrl: userConfig.privacyUrl || "/datenschutz.html",
       imprintUrl: userConfig.imprintUrl || "/impressum.html",
       proofEndpoint: userConfig.proofEndpoint || "",
@@ -178,8 +194,21 @@
       callbacks: userConfig.callbacks || {}
     };
 
-    config.text = deepMerge(TEXT[lang], userConfig.text || {});
+    var fallbackText = deepMerge(TEXT[fallbackLang] || TEXT[FALLBACK_LANG], translations[fallbackLang] || {});
+    var langText = deepMerge(TEXT[lang] || {}, translations[lang] || {});
+    config.text = deepMerge(deepMerge(fallbackText, langText), userConfig.text || {});
     return config;
+  }
+
+  function normalizeLanguage(value, translations, fallback) {
+    var raw = String(value || fallback || FALLBACK_LANG).toLowerCase();
+    var normalized = LANGUAGE_ALIASES[raw] || LANGUAGE_ALIASES[raw.split("-")[0]] || raw.split("-")[0];
+
+    if (TEXT[normalized] || (translations && translations[normalized])) {
+      return normalized;
+    }
+
+    return fallback || FALLBACK_LANG;
   }
 
   function deepMerge(base, override) {

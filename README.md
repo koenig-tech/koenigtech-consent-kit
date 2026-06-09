@@ -68,7 +68,9 @@ Add this before optional tracking scripts:
 <script>
   KoenigConsent.init({
     projectId: "client-name",
-    version: "2026-06-01",
+    version: "2026-06-09",
+    lang: "de",
+    fallbackLang: "en",
     privacyUrl: "/datenschutz.html",
     imprintUrl: "/impressum.html",
     services: {
@@ -85,6 +87,36 @@ Add a footer settings link:
 
 ```html
 <span data-kt-consent-settings-link></span>
+```
+
+## Language Support
+
+The kit includes German and English text packs. It reads `document.documentElement.lang` by default, but production projects should set the language explicitly:
+
+```js
+KoenigConsent.init({
+  projectId: "client-name",
+  lang: "de",
+  fallbackLang: "en"
+});
+```
+
+Supported aliases include `de`, `de-DE`, `deutsch`, `german`, `en`, `en-US`, `en-GB`, and `english`.
+
+Projects can override built-in copy or add another language through `translations`:
+
+```js
+KoenigConsent.init({
+  projectId: "client-name",
+  lang: "de",
+  fallbackLang: "en",
+  translations: {
+    de: {
+      bannerTitle: "Datenschutz-Einstellungen",
+      acceptAll: "Alles akzeptieren"
+    }
+  }
+});
 ```
 
 ## Brand Color Per Website

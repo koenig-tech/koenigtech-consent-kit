@@ -31,6 +31,9 @@ jobs:
       - name: Check release version
         run: npm run check:release
 
+      - name: Build WordPress plugin archive
+        run: npm run package:wordpress
+
       - name: Build release archive
         run: |
           mkdir -p release
@@ -38,6 +41,7 @@ jobs:
           cp dist/koenig-consent.js release/
           cp dist/koenig-consent.min.css release/
           cp dist/koenig-consent.min.js release/
+          cp wordpress-plugin/build/koenigtech-consent-wordpress.zip release/
           tar -czf "release/koenigtech-consent-kit-${GITHUB_REF_NAME}.tar.gz" dist docs examples README.md CHANGELOG.md LICENSE package.json
 
       - name: Create GitHub release
@@ -49,6 +53,7 @@ jobs:
             release/koenig-consent.js \
             release/koenig-consent.min.css \
             release/koenig-consent.min.js \
+            release/koenigtech-consent-wordpress.zip \
             "release/koenigtech-consent-kit-${GITHUB_REF_NAME}.tar.gz" \
             --title "KoenigTech Consent Kit ${GITHUB_REF_NAME}" \
             --generate-notes

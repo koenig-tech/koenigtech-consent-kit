@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.0 - 2026-06-09
+
+- Add the KoenigTech Consent WordPress plugin wrapper.
+- Add WordPress settings for language, legal links, Google Consent Mode, GA4, Google Ads, GTM, and Meta Pixel.
+- Add a GitHub Releases updater for WordPress plugin updates.
+- Add a WordPress plugin packaging workflow.
+
 ## 1.2.0 - 2026-06-09
 
 - Add explicit language normalization for German and English.

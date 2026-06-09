@@ -25,3 +25,6 @@ jobs:
 
       - name: Build minified assets
         run: npm run build
+
+      - name: Build WordPress plugin package
+        run: npm run package:wordpress

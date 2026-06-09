@@ -200,6 +200,37 @@ For CDN use, only use pinned versions:
 
 Never use `@main` on client websites.
 
+## WordPress Plugin
+
+For WordPress sites, use the installable plugin wrapper:
+
+```txt
+wordpress-plugin/build/koenigtech-consent-wordpress.zip
+```
+
+Build it with:
+
+```bash
+npm run build
+npm run package:wordpress
+```
+
+The plugin adds:
+
+```txt
+Settings > KoenigTech Consent
+```
+
+It can load the bundled consent kit, set German/English language options, configure legal URLs and tracking IDs, and check GitHub Releases for updates.
+
+WordPress plugin updates require a GitHub release asset named:
+
+```txt
+koenigtech-consent-wordpress.zip
+```
+
+When a newer release exists, WordPress shows an available plugin update. If automatic plugin updates are enabled in WordPress, the plugin can update from GitHub automatically.
+
 ## Commands
 
 Check JavaScript syntax:
@@ -212,6 +243,12 @@ Build minified production files:
 
 ```bash
 npm run build
+```
+
+Build the WordPress plugin zip:
+
+```bash
+npm run package:wordpress
 ```
 
 Run demo locally from the repo root:

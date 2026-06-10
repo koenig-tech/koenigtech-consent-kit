@@ -42,6 +42,7 @@ koenigtech-consent-kit/
     RELEASES.md
     USAGE.md
   examples/
+    cdn.html
     demo.html
   CHANGELOG.md
   LICENSE
@@ -194,11 +195,19 @@ Best default:
 For CDN use, only use pinned versions:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@v1.1.0/dist/koenig-consent.min.css">
-<script src="https://cdn.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@v1.1.0/dist/koenig-consent.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@v1.3.0/dist/koenig-consent.min.css">
+<script src="https://cdn.jsdelivr.net/gh/koenig-tech/koenigtech-consent-kit@v1.3.0/dist/koenig-consent.min.js"></script>
 ```
 
 Never use `@main` on client websites.
+
+See the ready-to-copy CDN example:
+
+```txt
+examples/cdn.html
+```
+
+If jsDelivr has a temporary edge issue, keep the pinned version and retry after a few minutes. Do not switch production sites to `@main`.
 
 ## WordPress Plugin
 
